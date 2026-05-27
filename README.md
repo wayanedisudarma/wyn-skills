@@ -1,10 +1,10 @@
-# wyn-skills 🚀
+# wyn-skills
 
 **wyn-skills** adalah alat bantu (CLI tool) berbasis Node.js yang dirancang untuk memudahkan instalasi dan pengelolaan AI skills/prompts khusus ke berbagai AI coding assistant dan editor pilihan Anda (seperti Antigravity, Cursor, Codex, dll.).
 
 ---
 
-## 📋 Fitur Utama
+## Fitur Utama
 - **Multi-Target Support**: Menginstal langsung ke direktori konfigurasi editor/assistant Anda secara otomatis.
 - **Smart Update**: Melakukan pengecekan versi (`versioning`) agar tidak menginstal ulang jika skill sudah berada di versi terbaru.
 - **Compatibility Check**: Memastikan skill hanya diinstal pada target editor yang kompatibel sesuai dengan metadata masing-masing skill.
@@ -12,7 +12,7 @@
 
 ---
 
-## 🎯 Target Editor yang Didukung
+## Target Editor yang Didukung
 
 | Parameter | Target Editor | Jalur Instalasi (Path) |
 | :--- | :--- | :--- |
@@ -24,7 +24,7 @@
 
 ---
 
-## 🚀 Cara Penggunaan
+## Cara Penggunaan
 
 Anda dapat langsung menjalankan installer ini menggunakan `npx` tanpa harus memasangnya secara global.
 
@@ -49,7 +49,7 @@ npx wyn-skills --cursor --java-spring-boot
 
 ---
 
-## 🌟 Skill yang Tersedia
+## Skill yang Tersedia
 
 Berikut adalah skill yang sudah tersedia di repositori ini:
 
@@ -58,7 +58,7 @@ Berikut adalah skill yang sudah tersedia di repositori ini:
 
 ---
 
-## 🛠️ Menambahkan Skill Baru
+## Menambahkan Skill Baru
 
 Semua skill diletakkan di dalam direktori `skills/`. Untuk menambahkan skill baru, ikuti struktur berikut:
 
@@ -87,5 +87,5 @@ Setiap skill **wajib** memiliki berkas `metadata.json` yang mendefinisikan infor
 
 ---
 
-## 📝 Lisensi
+## Lisensi
 Proyek ini dilisensikan di bawah lisensi [MIT](LICENSE).
