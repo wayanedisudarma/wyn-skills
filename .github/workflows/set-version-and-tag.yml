@@ -109,20 +109,19 @@ jobs:
 
       - name: Commit, Tag, and Push
         run: |
-          # Configure Git credentials
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # Configure Git credentials matching the working reference project
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
           
           # Stage and commit package.json
-          git add package.json
-          git commit -m "chore: bump version to ${{ steps.parse-version.outputs.cleaned }} [skip ci]"
+          git commit -am "chore: bump version to ${{ steps.parse-version.outputs.cleaned }} [skip ci]"
           
-          # Push the commit
-          git push
+          # Push the commit to the branch
+          git push origin ${{ github.ref_name }}
           
           # Create and push the tag matching the user's input
           TAG_NAME="${{ github.event.inputs.version }}"
-          git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
-          git push origin "refs/tags/$TAG_NAME"
+          git tag "$TAG_NAME"
+          git push origin "$TAG_NAME"
           
           echo "Successfully pushed version bump and tag '$TAG_NAME' to repository."
