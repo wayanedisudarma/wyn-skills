@@ -40,6 +40,13 @@ const TARGETS = {
         "skills"
     ),
 
+    "antigravity-cli": path.join(
+        os.homedir(),
+        ".gemini",
+        "antigravity-cli",
+        "skills"
+    ),
+
     codex: path.join(
         os.homedir(),
         ".codex",
