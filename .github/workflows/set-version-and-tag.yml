@@ -61,12 +61,7 @@ jobs:
           VERSION=${{ steps.extract.outputs.version }}
           for file in skills/*/metadata.json; do
             if [ -f "$file" ]; then
-              node -e "
-                const fs = require('fs');
-                const pkg = JSON.parse(fs.readFileSync('$file', 'utf8'));
-                pkg.version = '$VERSION';
-                fs.writeFileSync('$file', JSON.stringify(pkg, null, 2) + '\n');
-              "
+              sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" "$file"
               echo "Updated $file to version $VERSION"
             fi
           done
