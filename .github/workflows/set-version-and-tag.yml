@@ -118,7 +118,7 @@ jobs:
           git commit -m "chore: bump version to ${{ steps.parse-version.outputs.cleaned }} [skip ci]"
           
           # Push the commit
-          git push origin HEAD:${{ github.ref }}
+          git push
           
           # Create and push the tag matching the user's input
           TAG_NAME="${{ github.event.inputs.version }}"
