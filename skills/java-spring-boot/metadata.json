@@ -1,6 +1,6 @@
 {
   "name": "java-spring-boot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Spring Boot backend expert",
   "compatibleTargets": [
     "antigravity",

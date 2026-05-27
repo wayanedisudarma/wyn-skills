@@ -49,6 +49,15 @@ npx wyn-skills --cursor --java-spring-boot
 
 ---
 
+## 🌟 Skill yang Tersedia
+
+Berikut adalah skill yang sudah tersedia di repositori ini:
+
+- **java-spring-boot**: Spring Boot backend expert.
+- **skill-creator**: Agent skill untuk membantu AI assistant membuat skill baru sesuai dengan spesifikasi AgentSkills.
+
+---
+
 ## 🛠️ Menambahkan Skill Baru
 
 Semua skill diletakkan di dalam direktori `skills/`. Untuk menambahkan skill baru, ikuti struktur berikut:
