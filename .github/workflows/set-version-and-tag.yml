@@ -122,7 +122,7 @@ jobs:
           
           # Create and push the tag matching the user's input
           TAG_NAME="${{ github.event.inputs.version }}"
-          git tag "$TAG_NAME"
-          git push origin "$TAG_NAME"
+          git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
+          git push origin "refs/tags/$TAG_NAME"
           
           echo "Successfully pushed version bump and tag '$TAG_NAME' to repository."
