@@ -7,18 +7,17 @@ on:
         description: 'Version to set (e.g., v.1.2.3, v1.2.3, or 1.2.3)'
         required: true
         type: string
-
-permissions:
-  contents: write
-
 jobs:
   set-version-and-tag:
     name: Set Version and Tag
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref }}
           fetch-depth: 0
 
       - name: Set up Node.js
