@@ -56,6 +56,21 @@ jobs:
         run: |
           npm pkg set version=${{ steps.extract.outputs.version }}
 
+      - name: Update skills metadata.json version
+        run: |
+          VERSION=${{ steps.extract.outputs.version }}
+          for file in skills/*/metadata.json; do
+            if [ -f "$file" ]; then
+              node -e "
+                const fs = require('fs');
+                const pkg = JSON.parse(fs.readFileSync('$file', 'utf8'));
+                pkg.version = '$VERSION';
+                fs.writeFileSync('$file', JSON.stringify(pkg, null, 2) + '\n');
+              "
+              echo "Updated $file to version $VERSION"
+            fi
+          done
+
       - name: Commit version update
         run: |
           git config user.name "github-actions"
