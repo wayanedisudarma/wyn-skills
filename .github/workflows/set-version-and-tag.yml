@@ -1,126 +1,69 @@
-name: Set Version and Create Tag
+name: Set Version And Create Tag
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to set (e.g., v.1.2.3, v1.2.3, or 1.2.3)'
+        description: "Version (format: v.X.Y.Z)"
         required: true
-        type: string
+      branch:
+        description: "Target branch"
+        required: true
+        default: "main"
+
 jobs:
-  set-version-and-tag:
-    name: Set Version and Tag
+  set-version:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
-      - name: Checkout code
+      - name: Checkout branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ github.event.inputs.branch }}
           fetch-depth: 0
 
-      - name: Set up Node.js
+      - name: Validate version format
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          if [[ ! $VERSION =~ ^v\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid version format. Use v.X.Y.Z (e.g., v.1.2.3)"
+            exit 1
+          fi
+
+      - name: Check tag not exists
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          if git rev-parse "$VERSION" >/dev/null 2>&1; then
+            echo "Tag $VERSION already exists!"
+            exit 1
+          fi
+
+      - name: Extract version
+        id: extract
+        run: |
+          VERSION=${{ github.event.inputs.version }}
+          CLEAN_VERSION=${VERSION#v.}
+          echo "version=$CLEAN_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci || npm install
-
-      - name: Validate and Parse Version
-        id: parse-version
+      - name: Update package.json version
         run: |
-          node -e '
-            const input = process.env.INPUT_VERSION;
-            if (!input) {
-              console.error("::error::Version input is required.");
-              process.exit(1);
-            }
-            
-            // Validate that the input strictly matches the format "v.X.Y.Z"
-            const inputRegex = /^v\.[0-9]+\.[0-9]+\.[0-9]+$/;
-            if (!inputRegex.test(input)) {
-              console.error(`::error::Invalid version format: "${input}". Input must strictly follow the "v.X.Y.Z" format (e.g., v.1.2.3).`);
-              process.exit(1);
-            }
-            
-            // Clean version: strip leading "v."
-            const cleaned = input.substring(2);
-            
-            console.log(`Cleaned version: ${cleaned}`);
-            const fs = require("fs");
-            fs.appendFileSync(process.env.GITHUB_OUTPUT, `cleaned=${cleaned}\n`);
-          '
-        env:
-          INPUT_VERSION: ${{ github.event.inputs.version }}
+          npm pkg set version=${{ steps.extract.outputs.version }}
 
-      - name: Check if tag already exists
+      - name: Commit version update
         run: |
-          INPUT_VERSION="${{ github.event.inputs.version }}"
-          CLEANED_VERSION="${{ steps.parse-version.outputs.cleaned }}"
-          
-          # Fetch tags from remote repository
-          git fetch --tags origin || true
-          
-          # Define tags to check (the exact input, the normalized vX.Y.Z, and the raw X.Y.Z)
-          TAGS_TO_CHECK=("$INPUT_VERSION" "v$CLEANED_VERSION" "$CLEANED_VERSION")
-          
-          for TAG in "${TAGS_TO_CHECK[@]}"; do
-            if [ -z "$TAG" ]; then continue; fi
-            
-            # Check if tag exists locally (including fetched tags)
-            if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
-              echo "::error::Tag '$TAG' already exists in the repository!"
-              exit 1
-            fi
-            
-            # Check if tag exists on remote origin
-            REMOTE_CHECK=$(git ls-remote --tags origin "refs/tags/$TAG")
-            if [ -n "$REMOTE_CHECK" ]; then
-              echo "::error::Tag '$TAG' already exists on remote origin!"
-              exit 1
-            fi
-          done
-          
-          echo "No conflicting tags found. Proceeding."
-
-      - name: Update version in package.json
-        run: |
-          node -e '
-            const fs = require("fs");
-            const pkgPath = "package.json";
-            
-            if (!fs.existsSync(pkgPath)) {
-              console.error("::error::package.json not found!");
-              process.exit(1);
-            }
-            
-            const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
-            pkg.version = process.env.CLEANED_VERSION;
-            
-            fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n", "utf8");
-            console.log(`Successfully updated package.json version to: ${pkg.version}`);
-          '
-        env:
-          CLEANED_VERSION: ${{ steps.parse-version.outputs.cleaned }}
-
-      - name: Commit, Tag, and Push
-        run: |
-          # Configure Git credentials matching the working reference project
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          
-          # Stage and commit package.json
-          git commit -am "chore: bump version to ${{ steps.parse-version.outputs.cleaned }} [skip ci]"
-          
-          # Push the commit to the branch
-          git push origin ${{ github.ref_name }}
-          
-          # Create and push the tag matching the user's input
-          TAG_NAME="${{ github.event.inputs.version }}"
-          git tag "$TAG_NAME"
-          git push origin "$TAG_NAME"
-          
-          echo "Successfully pushed version bump and tag '$TAG_NAME' to repository."
+          git commit -am "Release ${{ github.event.inputs.version }}"
+          git push origin ${{ github.event.inputs.branch }}
+
+      - name: Create tag
+        run: |
+          git tag ${{ github.event.inputs.version }}
+          git push origin ${{ github.event.inputs.version }}
