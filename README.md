@@ -1,46 +1,52 @@
 # wyn-skills
 
-`wyn-skills` adalah CLI berbasis Node.js untuk memasang kumpulan AI skills ke direktori konfigurasi AI coding assistant/editor.
+`wyn-skills` is a Node.js-based CLI for installing AI skills into AI coding assistant/editor configuration directories.
 
-Installer membaca semua skill dari folder `skills/`, mengecek metadata masing-masing skill, lalu menyalin skill yang kompatibel ke target yang dipilih.
+The installer reads all skills from the `skills/` folder, checks each skill's metadata, then copies compatible skills into the selected target.
 
-## Fitur
+## Features
 
-- Instal skill ke beberapa target: Antigravity, Antigravity CLI, Codex, Cursor, dan Gemini.
-- Instal semua skill yang kompatibel, atau pilih skill tertentu dengan flag.
-- Cek kompatibilitas target berdasarkan `metadata.json`.
-- Cek versi terpasang lewat `.installed.json` agar skill versi sama tidak disalin ulang.
+- Install skills to multiple targets: Antigravity, Antigravity CLI, Codex, Cursor, and Gemini.
+- Install all compatible skills, or select specific skills with flags.
+- Check target compatibility based on `metadata.json`.
+- Check installed versions through `.installed.json` so skills with the same version are not copied again.
 
-## Instalasi dan Penggunaan
+## Installation and Usage
 
-Jalankan langsung dengan `npx`:
+Run directly with `npx`:
 
 ```bash
 npx wyn-skills --codex
 ```
 
-Format umum:
+General format:
 
 ```bash
 npx wyn-skills --<target> [--<skill-name> ...]
 ```
 
-Contoh memasang semua skill yang kompatibel ke Codex:
+Check the installed CLI version:
+
+```bash
+npx wyn-skills --version
+```
+
+Example: install all compatible skills to Codex:
 
 ```bash
 npx wyn-skills --codex
 ```
 
-Contoh memasang skill tertentu:
+Example: install specific skills:
 
 ```bash
 npx wyn-skills --codex --unit-testing
 npx wyn-skills --antigravity-cli --code-style --integration-testing
 ```
 
-## Target yang Didukung
+## Supported Targets
 
-| Flag | Target | Direktori Instalasi |
+| Flag | Target | Installation Directory |
 | :--- | :--- | :--- |
 | `--antigravity` | Antigravity | `~/.gemini/antigravity/skills` |
 | `--antigravity-cli` | Antigravity CLI | `~/.gemini/antigravity-cli/skills` |
@@ -48,20 +54,20 @@ npx wyn-skills --antigravity-cli --code-style --integration-testing
 | `--cursor` | Cursor | `~/.cursor/skills` |
 | `--gemini` | Gemini | `~/.gemini/skills` |
 
-Catatan: installer mengenali semua target di atas, tetapi skill hanya akan dipasang jika `compatibleTargets` di metadata skill memuat target tersebut.
+Note: the installer recognizes all targets above, but a skill will only be installed if the skill metadata's `compatibleTargets` includes that target.
 
-## Skill yang Tersedia
+## Available Skills
 
-| Skill | Deskripsi | Target Kompatibel |
+| Skill | Description | Compatible Targets |
 | :--- | :--- | :--- |
-| `code-style` | Panduan code style Java untuk project Spring Boot dengan Lombok. | `antigravity`, `antigravity-cli`, `codex` |
-| `integration-testing` | Pola integration testing Spring Boot dengan Testcontainers, WireMock, MockMvc, dan Awaitility. | `antigravity`, `antigravity-cli`, `codex` |
-| `skill-creator` | Instruksi untuk membuat agent skill baru sesuai struktur project ini. | `antigravity`, `antigravity-cli`, `codex` |
-| `unit-testing` | Panduan unit testing Spring Boot dengan JUnit 5 dan Mockito menggunakan Detroit Style TDD. | `antigravity`, `antigravity-cli`, `codex` |
+| `code-style` | Java code style guide for Spring Boot projects with Lombok. | `antigravity`, `antigravity-cli`, `codex` |
+| `integration-testing` | Spring Boot integration testing patterns with Testcontainers, WireMock, MockMvc, and Awaitility. | `antigravity`, `antigravity-cli`, `codex` |
+| `skill-creator` | Instructions for creating a new agent skill following this project's structure. | `antigravity`, `antigravity-cli`, `codex` |
+| `unit-testing` | Spring Boot unit testing guide with JUnit 5 and Mockito using Detroit Style TDD. | `antigravity`, `antigravity-cli`, `codex` |
 
-Nama skill pada CLI mengikuti nama folder di dalam `skills/`.
+Skill names in the CLI follow the folder names inside `skills/`.
 
-## Struktur Project
+## Project Structure
 
 ```text
 wyn-skills/
@@ -84,33 +90,33 @@ wyn-skills/
 `-- README.md
 ```
 
-## Menambahkan Skill Baru
+## Adding a New Skill
 
-Tambahkan folder baru di dalam `skills/`:
+Add a new folder inside `skills/`:
 
 ```text
 skills/
-`-- nama-skill-baru/
+`-- new-skill-name/
     |-- SKILL.md
     `-- metadata.json
 ```
 
-`SKILL.md` harus diawali YAML frontmatter:
+`SKILL.md` must start with YAML frontmatter:
 
 ```markdown
 ---
-name: nama-skill-baru
-description: Deskripsi singkat skill
+name: new-skill-name
+description: Brief skill description
 ---
 ```
 
-`metadata.json` wajib berisi informasi skill dan target yang kompatibel:
+`metadata.json` must contain the skill information and compatible targets:
 
 ```json
 {
-  "name": "nama-skill-baru",
+  "name": "new-skill-name",
   "version": "1.0.0",
-  "description": "Deskripsi singkat skill",
+  "description": "Brief skill description",
   "compatibleTargets": [
     "antigravity",
     "antigravity-cli",
@@ -119,6 +125,6 @@ description: Deskripsi singkat skill
 }
 ```
 
-## Lisensi
+## License
 
 MIT

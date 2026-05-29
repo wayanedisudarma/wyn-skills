@@ -1,13 +1,61 @@
 #!/usr/bin/env node
 
-import fs from "fs-extra";
+import fs from "fs";
 import path from "path";
 import os from "os";
-import chalk from "chalk";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const colors = {
+    blue: "\x1b[34m",
+    cyan: "\x1b[36m",
+    gray: "\x1b[90m",
+    green: "\x1b[32m",
+    red: "\x1b[31m",
+    reset: "\x1b[0m",
+    yellow: "\x1b[33m"
+};
+
+function colorize(color, text) {
+    return `${colors[color]}${text}${colors.reset}`;
+}
+
+function readJson(filePath) {
+    return JSON.parse(
+        fs.readFileSync(filePath, "utf8")
+    );
+}
+
+function writeJson(filePath, data) {
+    fs.writeFileSync(
+        filePath,
+        `${JSON.stringify(data, null, 2)}\n`,
+        "utf8"
+    );
+}
+
+/**
+ * CLI args
+ */
+const args = process.argv.slice(2);
+
+if (
+    args.includes("--version") ||
+    args.includes("-v")
+) {
+    const packageJson = readJson(
+        path.join(
+            __dirname,
+            "..",
+            "package.json"
+        )
+    );
+
+    console.log(packageJson.version);
+    process.exit(0);
+}
 
 /**
  * Skills source folder
@@ -22,11 +70,6 @@ const skillsDir = path.join(
  * All available skills
  */
 const allSkills = fs.readdirSync(skillsDir);
-
-/**
- * CLI args
- */
-const args = process.argv.slice(2);
 
 /**
  * Targets mapping
@@ -77,9 +120,7 @@ const selectedTarget = Object.keys(TARGETS)
 if (!selectedTarget) {
 
     console.log("");
-    console.log(
-        chalk.red("No target selected")
-    );
+    console.log(colorize("red", "No target selected"));
 
     console.log("");
     console.log("Example:");
@@ -121,9 +162,7 @@ const skillsToInstall =
 if (skillsToInstall.length === 0) {
 
     console.log("");
-    console.log(
-        chalk.red("No valid skills selected")
-    );
+    console.log(colorize("red", "No valid skills selected"));
 
     console.log("");
 
@@ -136,11 +175,14 @@ if (skillsToInstall.length === 0) {
 const targetDir =
     TARGETS[selectedTarget];
 
-fs.ensureDirSync(targetDir);
+fs.mkdirSync(targetDir, {
+    recursive: true
+});
 
 console.log("");
 console.log(
-    chalk.cyan(
+    colorize(
+        "cyan",
         `Installing to ${selectedTarget}...\n`
     )
 );
@@ -168,8 +210,7 @@ for (const skill of skillsToInstall) {
         "metadata.json"
     );
 
-    const metadata =
-        fs.readJsonSync(metadataPath);
+    const metadata = readJson(metadataPath);
 
     /**
      * Check compatibility
@@ -181,8 +222,9 @@ for (const skill of skillsToInstall) {
     ) {
 
         console.log(
-            chalk.yellow(
-                `⚠ ${skill} not compatible with ${selectedTarget}`
+            colorize(
+                "yellow",
+                `! ${skill} not compatible with ${selectedTarget}`
             )
         );
 
@@ -199,8 +241,7 @@ for (const skill of skillsToInstall) {
 
     if (fs.existsSync(installedFile)) {
 
-        const installed =
-            fs.readJsonSync(installedFile);
+        const installed = readJson(installedFile);
 
         if (
             installed.version ===
@@ -208,8 +249,9 @@ for (const skill of skillsToInstall) {
         ) {
 
             console.log(
-                chalk.gray(
-                    `✓ ${skill} already latest (${metadata.version})`
+                colorize(
+                    "gray",
+                    `OK ${skill} already latest (${metadata.version})`
                 )
             );
 
@@ -220,29 +262,25 @@ for (const skill of skillsToInstall) {
     /**
      * Copy skill
      */
-    fs.copySync(source, destination, {
-        overwrite: true
+    fs.cpSync(source, destination, {
+        recursive: true,
+        force: true
     });
 
     /**
      * Write installed metadata
      */
-    fs.writeJsonSync(
-        installedFile,
-        {
-            name: metadata.name,
-            version: metadata.version,
-            installedAt:
-                new Date().toISOString()
-        },
-        {
-            spaces: 2
-        }
-    );
+    writeJson(installedFile, {
+        name: metadata.name,
+        version: metadata.version,
+        installedAt:
+            new Date().toISOString()
+    });
 
     console.log(
-        chalk.green(
-            `✓ Installed ${skill} v${metadata.version}`
+        colorize(
+            "green",
+            `OK Installed ${skill} v${metadata.version}`
         )
     );
 }
@@ -250,7 +288,7 @@ for (const skill of skillsToInstall) {
 console.log("");
 
 console.log(
-    chalk.blue("Done")
+    colorize("blue", "Done")
 );
 
 console.log("");

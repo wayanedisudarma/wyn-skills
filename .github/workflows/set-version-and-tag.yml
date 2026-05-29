@@ -55,9 +55,9 @@ jobs:
         with:
           node-version: '24'
 
-      - name: Update package.json version
+      - name: Update package version
         run: |
-          npm pkg set version=${{ steps.extract.outputs.version }}
+          npm version ${{ steps.extract.outputs.version }} --no-git-tag-version --allow-same-version
 
       - name: Update skills metadata.json version
         run: |
