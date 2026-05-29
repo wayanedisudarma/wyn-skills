@@ -1,7 +1,7 @@
 {
-  "name": "skill-creator",
+  "name": "unit-resting",
   "version": "1.0.3",
-  "description": "Agent skill for creating new agent skills",
+  "description": "java spring boot unit testing best practice",
   "compatibleTargets": [
     "antigravity",
     "antigravity-cli",
