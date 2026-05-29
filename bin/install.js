@@ -37,6 +37,27 @@ function writeJson(filePath, data) {
 }
 
 /**
+ * CLI args
+ */
+const args = process.argv.slice(2);
+
+if (
+    args.includes("--version") ||
+    args.includes("-v")
+) {
+    const packageJson = readJson(
+        path.join(
+            __dirname,
+            "..",
+            "package.json"
+        )
+    );
+
+    console.log(packageJson.version);
+    process.exit(0);
+}
+
+/**
  * Skills source folder
  */
 const skillsDir = path.join(
@@ -49,11 +70,6 @@ const skillsDir = path.join(
  * All available skills
  */
 const allSkills = fs.readdirSync(skillsDir);
-
-/**
- * CLI args
- */
-const args = process.argv.slice(2);
 
 /**
  * Targets mapping

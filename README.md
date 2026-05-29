@@ -25,6 +25,12 @@ General format:
 npx wyn-skills --<target> [--<skill-name> ...]
 ```
 
+Check the installed CLI version:
+
+```bash
+npx wyn-skills --version
+```
+
 Example: install all compatible skills to Codex:
 
 ```bash
