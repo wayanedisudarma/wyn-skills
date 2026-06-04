@@ -1,6 +1,6 @@
 {
   "name": "skill-creator",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Agent skill for creating new agent skills",
   "compatibleTargets": [
     "antigravity",

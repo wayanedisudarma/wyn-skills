@@ -1,10 +1,5 @@
 {
   "name": "java-spring-boot-unit-testing",
-  "version": "1.0.3",
-  "description": "java spring boot unit testing best practice",
-  "compatibleTargets": [
-    "antigravity",
-    "antigravity-cli",
-    "codex"
-  ]
+  "version": "1.0.6",
+  "description": "java spring boot unit testing best practice"
 }
