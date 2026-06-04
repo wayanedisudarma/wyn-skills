@@ -1,5 +1,5 @@
 ---
-name: unit-testing
+name: java-spring-boot-unit-testing
 description: Guidelines and patterns for writing unit tests in Spring Boot applications using JUnit 5 and Mockito, following Detroit Style TDD.
 ---
 

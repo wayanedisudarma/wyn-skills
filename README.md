@@ -40,8 +40,8 @@ npx wyn-skills --codex
 Example: install specific skills:
 
 ```bash
-npx wyn-skills --codex --unit-testing
-npx wyn-skills --antigravity-cli --code-style --integration-testing
+npx wyn-skills --codex --java-spring-boot-unit-testing
+npx wyn-skills --antigravity-cli --java-spring-boot-code-style --java-spring-boot-integration-testing
 ```
 
 ## Supported Targets
@@ -60,10 +60,10 @@ Note: the installer recognizes all targets above, but a skill will only be insta
 
 | Skill | Description | Compatible Targets |
 | :--- | :--- | :--- |
-| `code-style` | Java code style guide for Spring Boot projects with Lombok. | `antigravity`, `antigravity-cli`, `codex` |
-| `integration-testing` | Spring Boot integration testing patterns with Testcontainers, WireMock, MockMvc, and Awaitility. | `antigravity`, `antigravity-cli`, `codex` |
+| `java-spring-boot-code-style` | Java code style guide for Spring Boot projects with Lombok. | `antigravity`, `antigravity-cli`, `codex` |
+| `java-spring-boot-integration-testing` | Spring Boot integration testing patterns with Testcontainers, WireMock, MockMvc, and Awaitility. | `antigravity`, `antigravity-cli`, `codex` |
+| `java-spring-boot-unit-testing` | Spring Boot unit testing guide with JUnit 5 and Mockito using Detroit Style TDD. | `antigravity`, `antigravity-cli`, `codex` |
 | `skill-creator` | Instructions for creating a new agent skill following this project's structure. | `antigravity`, `antigravity-cli`, `codex` |
-| `unit-testing` | Spring Boot unit testing guide with JUnit 5 and Mockito using Detroit Style TDD. | `antigravity`, `antigravity-cli`, `codex` |
 
 Skill names in the CLI follow the folder names inside `skills/`.
 
@@ -74,16 +74,16 @@ wyn-skills/
 |-- bin/
 |   `-- install.js
 |-- skills/
-|   |-- code-style/
+|   |-- java-spring-boot-code-style/
 |   |   |-- SKILL.md
 |   |   `-- metadata.json
-|   |-- integration-testing/
+|   |-- java-spring-boot-integration-testing/
 |   |   |-- SKILL.md
 |   |   `-- metadata.json
-|   |-- skill-creator/
+|   |-- java-spring-boot-unit-testing/
 |   |   |-- SKILL.md
 |   |   `-- metadata.json
-|   `-- unit-testing/
+|   `-- skill-creator/
 |       |-- SKILL.md
 |       `-- metadata.json
 |-- package.json

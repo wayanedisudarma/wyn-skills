@@ -1,7 +1,7 @@
 {
-  "name": "code-style",
+  "name": "java-spring-boot-unit-testing",
   "version": "1.0.3",
-  "description": "java code style best practice",
+  "description": "java spring boot unit testing best practice",
   "compatibleTargets": [
     "antigravity",
     "antigravity-cli",

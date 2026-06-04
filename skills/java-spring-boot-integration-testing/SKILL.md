@@ -1,5 +1,5 @@
 ---
-name: integration-testing
+name: java-spring-boot-integration-testing
 description: Patterns for integration testing Spring Boot applications using Testcontainers, WireMock, MockMvc, and Awaitility.
 ---
 

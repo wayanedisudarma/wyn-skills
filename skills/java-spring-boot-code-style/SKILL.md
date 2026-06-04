@@ -1,5 +1,5 @@
 ---
-name: code-style
+name: java-spring-boot-code-style
 description: Standard Java code style guidelines for Spring Boot projects using Lombok, ensuring consistency between AI Agents and Developers.
 ---
 

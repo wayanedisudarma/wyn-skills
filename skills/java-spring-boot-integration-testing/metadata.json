@@ -1,5 +1,5 @@
 {
-  "name": "integration-resting",
+  "name": "java-spring-boot-integration-testing",
   "version": "1.0.3",
   "description": "java spring boot integration testing best practice",
   "compatibleTargets": [
