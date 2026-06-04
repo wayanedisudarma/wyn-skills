@@ -7,8 +7,7 @@ The installer reads all skills from the `skills/` folder, checks each skill's me
 ## Features
 
 - Install skills to multiple targets: Antigravity, Antigravity CLI, Codex, Cursor, and Gemini.
-- Install all compatible skills, or select specific skills with flags.
-- Check target compatibility based on `metadata.json`.
+- Install all skills, or select specific skills with flags.
 - Check installed versions through `.installed.json` so skills with the same version are not copied again.
 
 ## Installation and Usage
@@ -31,7 +30,7 @@ Check the installed CLI version:
 npx wyn-skills --version
 ```
 
-Example: install all compatible skills to Codex:
+Example: install all skills to Codex:
 
 ```bash
 npx wyn-skills --codex
@@ -54,16 +53,14 @@ npx wyn-skills --antigravity-cli --java-spring-boot-code-style --java-spring-boo
 | `--cursor` | Cursor | `~/.cursor/skills` |
 | `--gemini` | Gemini | `~/.gemini/skills` |
 
-Note: the installer recognizes all targets above, but a skill will only be installed if the skill metadata's `compatibleTargets` includes that target.
-
 ## Available Skills
 
-| Skill | Description | Compatible Targets |
-| :--- | :--- | :--- |
-| `java-spring-boot-code-style` | Java code style guide for Spring Boot projects with Lombok. | `antigravity`, `antigravity-cli`, `codex` |
-| `java-spring-boot-integration-testing` | Spring Boot integration testing patterns with Testcontainers, WireMock, MockMvc, and Awaitility. | `antigravity`, `antigravity-cli`, `codex` |
-| `java-spring-boot-unit-testing` | Spring Boot unit testing guide with JUnit 5 and Mockito using Detroit Style TDD. | `antigravity`, `antigravity-cli`, `codex` |
-| `skill-creator` | Instructions for creating a new agent skill following this project's structure. | `antigravity`, `antigravity-cli`, `codex` |
+| Skill | Description |
+| :--- | :--- |
+| `java-spring-boot-code-style` | Java code style guide for Spring Boot projects with Lombok. |
+| `java-spring-boot-integration-testing` | Spring Boot integration testing patterns with Testcontainers, WireMock, MockMvc, and Awaitility. |
+| `java-spring-boot-unit-testing` | Spring Boot unit testing guide with JUnit 5 and Mockito using Detroit Style TDD. |
+| `skill-creator` | Instructions for creating a new agent skill following this project's structure. |
 
 Skill names in the CLI follow the folder names inside `skills/`.
 
@@ -110,18 +107,13 @@ description: Brief skill description
 ---
 ```
 
-`metadata.json` must contain the skill information and compatible targets:
+`metadata.json` must contain the skill information:
 
 ```json
 {
   "name": "new-skill-name",
   "version": "1.0.0",
-  "description": "Brief skill description",
-  "compatibleTargets": [
-    "antigravity",
-    "antigravity-cli",
-    "codex"
-  ]
+  "description": "Brief skill description"
 }
 ```
 

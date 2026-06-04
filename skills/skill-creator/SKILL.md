@@ -25,11 +25,7 @@ When the user asks to create a new skill, follow these steps:
    {
      "name": "<skill-name>",
      "version": "1.0.0",
-     "description": "<short description>",
-     "compatibleTargets": [
-       "antigravity",
-       "antigravity-cli"
-     ]
+     "description": "<short description>"
    }
    ```
 4. **Progressive Disclosure**: If the instructions are long, consider moving detailed reference material to separate files (e.g., `references/REFERENCE.md`) and reference them using relative paths one level deep.
