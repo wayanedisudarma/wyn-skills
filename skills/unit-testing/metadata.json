@@ -1,6 +1,6 @@
 {
   "name": "unit-resting",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "java spring boot unit testing best practice",
   "compatibleTargets": [
     "antigravity",
