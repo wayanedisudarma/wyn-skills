@@ -28,6 +28,8 @@ When writing or generating Java code, follow these steps in order:
 5. **Apply method chaining indentation** according to section 5.
 6. **Apply Builder style** according to section 6.
 7. **Check logging** according to section 7.
+8. **Apply Return Early pattern** to reduce nesting according to section 9.
+9. **Extract complex conditions** into private methods according to section 10.
 
 ---
 
@@ -254,4 +256,100 @@ var result = MyDto.builder()
 
 // ❌ Avoid for primitives or unclear types
 var x = 5; // Use int x = 5; for clarity
+```
+
+---
+
+## 9. Return Early (Guard Clauses)
+
+Use **return early** (guard clauses) to handle edge cases and invalid states at the top of the method. This eliminates deep nesting and `if-else` chains, making the happy path clearly readable at the bottom of the method.
+
+**Rules:**
+- Check preconditions (null, empty, invalid state) at the top and return immediately.
+- Avoid `else` blocks when the `if` branch already exits the method (via `return`, `throw`, etc.).
+- Inline single-use variables that only serve as an argument to the next call.
+
+### ✅ Correct:
+```java
+public void processRequest(RequestDto request) {
+    Entity entity = converter.convert(request, Entity.class);
+    if (entity == null) {
+        log.warn("Failed to convert request to entity");
+        return;  // ← guard clause: exit early
+    }
+
+    Optional<Entity> existing = repository.findById(entity.getId());
+    if (existing.isEmpty()) {
+        repository.save(entity);
+        return;  // ← guard clause: exit early, no else needed
+    }
+
+    // happy path — no nesting
+    Entity existingEntity = existing.get();
+    applyFallbackValues(entity, existingEntity);
+    BeanUtils.copyProperties(entity, existingEntity, IGNORE_FIELDS);
+    repository.save(existingEntity);
+}
+```
+
+### ❌ Incorrect:
+```java
+public void processRequest(RequestDto request) {
+    Entity entity = converter.convert(request, Entity.class);
+    if (entity != null) {
+        Optional<Entity> existing = repository.findById(entity.getId());
+        if (existing.isEmpty()) {
+            repository.save(entity);
+        } else {
+            // deeply nested happy path ← hard to read
+            Entity existingEntity = existing.get();
+            BeanUtils.copyProperties(entity, existingEntity, IGNORE_FIELDS);
+            repository.save(existingEntity);
+        }
+    }
+}
+```
+
+---
+
+## 10. Extract Private Method
+
+Extract complex boolean expressions or multi-step logic blocks into **private methods** with intention-revealing names. This keeps the public method readable as a high-level narrative.
+
+**Rules:**
+- Extract when a condition involves more than one `&&` / `||` operator.
+- Extract when a block of logic inside a public method is not its primary responsibility.
+- Name the method to describe **what** it does, not **how** it does it.
+- Prefer extracting intermediate `boolean` variables into a private method instead.
+
+### ✅ Correct:
+```java
+// Public method reads like a narrative
+public void updateEntity(RequestDto request) {
+    ...
+    applyFallbackValues(incoming, existing);  // ← intention-revealing name
+    BeanUtils.copyProperties(incoming, existing, IGNORE_FIELDS);
+    repository.save(existing);
+}
+
+// Complex condition is hidden inside a focused private method
+private void applyFallbackValues(Entity incoming, Entity existing) {
+    if (!StringUtils.hasText(incoming.getCode()) && StringUtils.hasText(existing.getCode())) {
+        incoming.setCode(existing.getCode());
+    }
+}
+```
+
+### ❌ Incorrect:
+```java
+// Intermediate boolean variable clutters the public method
+public void updateEntity(RequestDto request) {
+    ...
+    boolean useExistingCode = !StringUtils.hasText(incoming.getCode())
+            && StringUtils.hasText(existing.getCode());
+    if (useExistingCode) {
+        incoming.setCode(existing.getCode());
+    }
+    ...
+}
 ```
