@@ -1,7 +1,7 @@
 {
-  "name": "integration-resting",
+  "name": "java-spring-boot-code-style",
   "version": "1.0.6",
-  "description": "java spring boot integration testing best practice",
+  "description": "java code style best practice",
   "compatibleTargets": [
     "antigravity",
     "antigravity-cli",

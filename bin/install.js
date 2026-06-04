@@ -212,24 +212,7 @@ for (const skill of skillsToInstall) {
 
     const metadata = readJson(metadataPath);
 
-    /**
-     * Check compatibility
-     */
-    if (
-        !metadata.compatibleTargets.includes(
-            selectedTarget
-        )
-    ) {
-
-        console.log(
-            colorize(
-                "yellow",
-                `! ${skill} not compatible with ${selectedTarget}`
-            )
-        );
-
-        continue;
-    }
+    // All skills are compatible with all targets
 
     /**
      * Check installed version
