@@ -2,6 +2,14 @@
   "name": "wyn-skills",
   "version": "1.0.7",
   "description": "AI Skills Installer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wayanedisudarma/wyn-skills.git"
+  },
+  "homepage": "https://github.com/wayanedisudarma/wyn-skills#readme",
+  "bugs": {
+    "url": "https://github.com/wayanedisudarma/wyn-skills/issues"
+  },
   "type": "module",
   "bin": {
     "wyn-skills": "bin/install.js"
@@ -13,7 +21,9 @@
   "keywords": [
     "ai",
     "skills",
-    "antigravity"
+    "antigravity",
+    "antigravity-cli",
+    "codex"
   ],
   "author": "Wayan Edi Sudarma",
   "license": "MIT",
