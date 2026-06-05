@@ -27,7 +27,7 @@ Unlike "London Style" TDD, which mocks every collaborator, Detroit Style TDD enc
 Every unit test class should use JUnit 5 and Mockito. Instead of relying solely on `@InjectMocks`, manually instantiate your components in `@BeforeEach` to use real collaborators.
 
 ```java
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 class MyControllerUnitTest {
 
     private MockMvc mockMvc;
