@@ -113,7 +113,13 @@ const TARGETS = {
         ".config",
         "opencode",
         "skills"
-        )
+        ),
+
+    claude: path.join(
+        os.homedir(),
+        ".claude",
+        "skills"
+    )
 };
 
 /**
