@@ -23,7 +23,11 @@
     "skills",
     "antigravity",
     "antigravity-cli",
-    "codex"
+    "codex",
+    "cursor",
+    "gemini",
+    "opencode",
+    "claude"
   ],
   "author": "Wayan Edi Sudarma",
   "license": "MIT",
