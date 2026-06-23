@@ -6,7 +6,7 @@ The installer reads all skills from the `skills/` folder, checks each skill's me
 
 ## Features
 
-- Install skills to multiple targets: Antigravity, Antigravity CLI, Codex, Cursor, and Gemini.
+- Install skills to multiple targets: Antigravity, Antigravity CLI, Codex, Cursor, Gemini, and Opencode.
 - Install all skills, or select specific skills with flags.
 - Check installed versions through `.installed.json` so skills with the same version are not copied again.
 
@@ -52,6 +52,7 @@ npx wyn-skills --antigravity-cli --java-spring-boot-code-style --java-spring-boo
 | `--codex` | Codex | `~/.codex/skills` |
 | `--cursor` | Cursor | `~/.cursor/skills` |
 | `--gemini` | Gemini | `~/.gemini/skills` |
+| `--opencode` | Opencode | `~/.config/opencode/skills` |
 
 ## Available Skills
 

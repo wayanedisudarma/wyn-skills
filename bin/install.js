@@ -106,7 +106,14 @@ const TARGETS = {
         os.homedir(),
         ".gemini",
         "skills"
-    )
+    ),
+
+    opencode: path.join(
+        os.homedir(),
+        ".config",
+        "opencode",
+        "skills"
+        )
 };
 
 /**
