@@ -1,6 +1,6 @@
 {
   "name": "java-spring-boot-code-style",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "java code style best practice",
   "compatibleTargets": [
     "antigravity",
